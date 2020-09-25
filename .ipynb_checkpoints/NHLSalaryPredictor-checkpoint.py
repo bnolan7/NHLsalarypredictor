@@ -74,6 +74,8 @@ def LR_evaluation(X_train, X_test, Y_train, Y_test, y_pred_reg): # evaluate the 
     plt.figure(figsize=(10,5));
     plt.scatter(df['Actual'], df['Predicted']);
     plt.plot(df['Actual'], df['Actual'],'r');
+    plt.xlabel('Actual Salary')
+    plt.ylabel('Predicted Salary')
     resids = (Y_test - y_pred_reg)
     sns.displot(resids);
     return
@@ -93,6 +95,8 @@ def nn_model_evaluation(Y_test, y_pred, history):
     fig = plt.figure(figsize=(10,5))
     plt.scatter(Y_test,y_pred)
     plt.plot(Y_test,Y_test,'r')
+    plt.xlabel('Actual Salary')
+    plt.ylabel('Predicted Salary')
     from sklearn import metrics
     print('MAE:', metrics.mean_absolute_error(Y_test, y_pred))  
     print('MSE:', metrics.mean_squared_error(Y_test, y_pred))  
