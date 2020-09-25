@@ -6,4 +6,4 @@ Comparison between Scikit-Learn Linear Regression and TensorFlow Keras Neural Ne
 ![Image of LR plot](https://github.com/bnolan7/NHLsalarypredictor/blob/master/images/LR%20Plot.png)
 
 
-![Image of NN plot] (https://github.com/bnolan7/NHLsalarypredictor/blob/master/images/NN%20plot%26loss.png)
+![Image of NN plot](https://github.com/bnolan7/NHLsalarypredictor/blob/master/images/NN%20plot%26loss.png)
