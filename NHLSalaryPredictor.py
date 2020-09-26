@@ -81,12 +81,14 @@ def LR_evaluation(X_train, X_test, Y_train, Y_test, y_pred_reg): # evaluate the 
     return
 
 def nn_model(X_train, X_test, Y_train, Y_test, layers):
-    model = keras.Sequential([keras.layers.Dense(layers, activation='relu'), #4-layer Neural net, with n number of layers
-                          keras.layers.Dense(layers, activation='relu'),
-                          keras.layers.Dense(layers, activation='relu'),
+    initializer = tf.keras.initializers.Zeros()
+    model = keras.Sequential([keras.layers.Dense(layers, activation='relu', kernel_initializer=initializer)), #4-layer Neural net, with n number of layers
+                          keras.layers.Dense(layers, activation='relu', kernel_initializer=initializer),
+                          keras.layers.Dense(layers, activation='softmax', kernel_initializer=initializer),
                           keras.layers.Dense(1)])
     model.compile(loss='mae', #mean absolute error loss function
-                optimizer='Adam') #RMSprop with momentum optimization function 
+                optimizer='Adam',
+                metrics=[tf.keras.metrics.RootMeanSquaredError()]) #RMSprop with momentum optimization function 
     history = model.fit(x=X_train, y=Y_train, epochs=100, validation_data=(X_test, Y_test))
     y_pred = model.predict(X_test)
     return history, y_pred
