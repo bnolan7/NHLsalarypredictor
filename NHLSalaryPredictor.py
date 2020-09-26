@@ -20,7 +20,7 @@ def NHL_player_data_retrieval(): # retrieve data from excel file and return non-
     df = df.mask(df['POS']=='G')
     df = df.dropna(axis=0, how='any')
     X = df.drop(['TOI', 'PLAYER', 'TEAM', 'POS', 'HANDED', 'CAP HIT', 'SALARY'], axis=1)
-    y = df['SALARY']
+    y = df['SALARY'] # AAV or CAP Hit also possible options
     y = y/1000000.00 #labeled data for supervised learning (continuous variable)
     return X, y
 
@@ -34,13 +34,13 @@ def descriptive_plot(X, y):
     plt.tight_layout()
     fig = plt.figure(figsize=(18,5));
     fig.add_subplot(2,2,1)
-    sns.scatterplot(x=X['P'],y= y)
+    sns.scatterplot(x=y, y= X['P']) 
     fig.add_subplot(2,2,2)
-    sns.scatterplot(x=X['G'],y= y)
+    sns.scatterplot(x=y,y= X['G'])
     fig.add_subplot(2,2,3)
-    sns.scatterplot(x=X['Sh'],y= y)
+    sns.scatterplot(x=y,y= X['Sh'])
     fig.add_subplot(2,2,4)
-    sns.scatterplot(x=X['AGE'],y= y)
+    sns.scatterplot(x=y,y= X['AGE'])
     fig.tight_layout()
     return 
 
@@ -48,14 +48,14 @@ def split_preprocess(X, y):
     from sklearn.model_selection import train_test_split
     from sklearn import preprocessing
     X_train, X_test, Y_train, Y_test = train_test_split(X, y, test_size = 0.2)
-    s_scaler = preprocessing.StandardScaler()
+    s_scaler = preprocessing.StandardScaler() #standardizing features by removing the mean and scaling to unit variance
     X_train = s_scaler.fit_transform(X_train)
     X_test = s_scaler.transform(X_test)
     return X_train, X_test, Y_train, Y_test
 
 def LRPredict(X, X_train, X_test, Y_train, Y_test):
     from sklearn.linear_model import LinearRegression
-    regressor = LinearRegression()
+    regressor = LinearRegression() 
     regressor.fit(X_train, Y_train)
     y_pred_reg = regressor.predict(X_test)
     coeff_df = pd.DataFrame(regressor.coef_, X.columns, columns=['Coefficient'])
@@ -81,12 +81,12 @@ def LR_evaluation(X_train, X_test, Y_train, Y_test, y_pred_reg): # evaluate the 
     return
 
 def nn_model(X_train, X_test, Y_train, Y_test, layers):
-    model = keras.Sequential([keras.layers.Dense(layers, activation='relu'), 
+    model = keras.Sequential([keras.layers.Dense(layers, activation='relu'), #4-layer Neural net, with n number of layers
                           keras.layers.Dense(layers, activation='relu'),
                           keras.layers.Dense(layers, activation='relu'),
                           keras.layers.Dense(1)])
-    model.compile(loss='mae',
-                optimizer='Adam')
+    model.compile(loss='mae', #mean absolute error loss function
+                optimizer='Adam') #RMSprop with momentum optimization function 
     history = model.fit(x=X_train, y=Y_train, epochs=100, validation_data=(X_test, Y_test))
     y_pred = model.predict(X_test)
     return history, y_pred
