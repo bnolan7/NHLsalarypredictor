@@ -80,11 +80,11 @@ def LR_evaluation(X_train, X_test, Y_train, Y_test, y_pred_reg): # evaluate the 
     sns.displot(resids);
     return
 
-def nn_model(X_train, X_test, Y_train, Y_test, layers):
-    model = keras.Sequential([keras.layers.Dense(layers, activation='relu'), 
-                          keras.layers.Dense(layers, activation='relu'),
-                          keras.layers.Dense(layers, activation='relu'),
-                          keras.layers.Dense(1)]) #4-layer Neural net, with n number of layers
+def nn_model(X_train, X_test, Y_train, Y_test, nodes):
+    model = keras.Sequential([keras.layers.Dense(nodes, activation='relu'), 
+                          keras.layers.Dense(nodes, activation='relu'),
+                          keras.layers.Dense(nodes, activation='relu'),
+                          keras.layers.Dense(1)]) #4-layer Neural net, with n number of nodes
     model.compile(loss='mae', #mean absolute error loss function
                 optimizer='Adam') #RMSprop with momentum optimization function 
     history = model.fit(x=X_train, y=Y_train, epochs=200, verbose=1, validation_data=(X_test, Y_test))
