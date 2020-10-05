@@ -27,7 +27,8 @@ def NHL_player_data_retrieval(): # retrieve data from excel file and return non-
 def descriptive_plot(X, y):
     fig = plt.figure(figsize=(10,7))
     fig.add_subplot(2,1,1)
-    ax1 = sns.histplot(data=y) #distribution of NHL player salaries
+    ax1 = sns.histplot(data=y)
+    ax1.set(xlabel='Salary (millions)') #distribution of NHL player salaries
     fig.add_subplot(2,1,2)
     ax2 = sns.boxplot(data=y, orient='h') #boxplot of salaries
     ax2.set(xlabel='Salary (millions)')
@@ -95,8 +96,8 @@ def nn_model_evaluation(Y_test, y_pred, history):
     fig = plt.figure(figsize=(10,5))
     plt.scatter(Y_test,y_pred)
     plt.plot(Y_test,Y_test,'r')
-    plt.xlabel('Actual Salary')
-    plt.ylabel('Predicted Salary')
+    plt.xlabel('Actual Salary (millions)')
+    plt.ylabel('Predicted Salary (millions)')
     from sklearn import metrics
     print('MAE:', metrics.mean_absolute_error(Y_test, y_pred))  
     print('MSE:', metrics.mean_squared_error(Y_test, y_pred))  
